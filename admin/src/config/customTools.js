@@ -10,7 +10,7 @@ import Marker from '@editorjs/marker'
 import CheckList from '@editorjs/checklist'
 import Delimiter from '@editorjs/delimiter'
 import InlineCode from '@editorjs/inline-code'
-import Hyperlink from 'editorjs-hyperlink';
+import Hyperlink from '../components/hyperlink/Hyperlink';
 
 const customTools = {
   embed: Embed,
