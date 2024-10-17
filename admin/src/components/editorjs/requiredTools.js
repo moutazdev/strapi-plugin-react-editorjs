@@ -1,9 +1,8 @@
-import PluginId from '../../pluginId'
-const axios = require('axios')
-import { auth } from '@strapi/helper-plugin';
+import PluginId from "../../pluginId";
+const axios = require("axios");
 
 // Plugins for Editor.js
-import Image from '@editorjs/image'
+import Image from "@editorjs/image";
 
 const requiredTools = {
   image: {
@@ -11,10 +10,11 @@ const requiredTools = {
     config: {
       field: "files.image",
       additionalRequestData: {
-        data: JSON.stringify({})
+        data: JSON.stringify({}),
       },
       additionalRequestHeaders: {
-        "Authorization": `Bearer ${auth.getToken()}`
+        // AHLY
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5MTgyMTMzLCJleHAiOjE3MzE3NzQxMzN9.lthiUwLfY7cuEhlfTH3Xh9tA1kHzE-fU53HSQOJmT-I`,
       },
       endpoints: {
         byUrl: `/api/${PluginId}/image/byUrl`,
@@ -25,17 +25,22 @@ const requiredTools = {
           formData.append("data", JSON.stringify({}));
           formData.append("files.image", file);
 
-          const {data} = await axios.post(`/api/${PluginId}/image/byFile`, formData, {
-            headers: {
-              "Authorization": `Bearer ${auth.getToken()}`
-            }
-          });
+          const { data } = await axios.post(
+            `/api/${PluginId}/image/byFile`,
+            formData,
+            {
+              headers: {
+                // AHLY
+                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5MTgyMTMzLCJleHAiOjE3MzE3NzQxMzN9.lthiUwLfY7cuEhlfTH3Xh9tA1kHzE-fU53HSQOJmT-I`,
+              },
+            },
+          );
 
-          return data
+          return data;
         },
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 
-export default requiredTools
+export default requiredTools;

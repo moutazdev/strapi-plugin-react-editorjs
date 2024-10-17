@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isEmpty } from 'lodash';
+import { isEmpty } from "lodash";
 import Editor from "../editorjs";
-import cn from 'classnames';
-import Wrapper from './wrapper';
-import { useIntl } from 'react-intl';
-import { Box } from '@strapi/design-system/Box';
-import { Typography } from '@strapi/design-system/Typography';
-
+import cn from "classnames";
+import Wrapper from "./wrapper";
+import { useIntl } from "react-intl";
+import { Box } from "@strapi/design-system";
+import { Typography } from "@strapi/design-system";
+/**
+ * @type {import('react').FC<{ setPlugin: (id: string) => void }>}
+ */
 const Wysiwyg = ({
   name,
   className,
@@ -23,10 +25,15 @@ const Wysiwyg = ({
   const { formatMessage } = useIntl();
 
   return (
-    <Wrapper size={1} className={`${cn(!isEmpty(className) && className)}`} style={style}>            
+    <Wrapper
+      size={1}
+      className={`${cn(!isEmpty(className) && className)}`}
+      style={style}
+    >
       <Box>
         <Typography variant="pi" fontWeight="bold">
-          {formatMessage(intlLabel)}
+          {/* {formatMessage(intlLabel)} */}
+          {intlLabel}
         </Typography>
         {required && (
           <Typography variant="pi" fontWeight="bold" textColor="danger600">
@@ -34,7 +41,12 @@ const Wysiwyg = ({
           </Typography>
         )}
       </Box>
-      <Editor onChange={onChange} value={value} name={name} disabled={disabled} />
+      <Editor
+        onChange={onChange}
+        value={value}
+        name={name}
+        disabled={disabled}
+      />
       {error && (
         <Typography variant="pi" textColor="danger600">
           {formatMessage({ id: error, defaultMessage: error })}
@@ -43,9 +55,8 @@ const Wysiwyg = ({
       {description && (
         <Typography variant="pi">{formatMessage(description)}</Typography>
       )}
-      
     </Wrapper>
-  )
+  );
 };
 
 Wysiwyg.defaultProps = {
@@ -53,12 +64,12 @@ Wysiwyg.defaultProps = {
   style: {},
   tabIndex: "0",
   value: null,
-  description: '',
+  description: "",
   disabled: false,
   error: undefined,
-  intlLabel: '',
+  intlLabel: "",
   required: false,
-  value: '',
+  value: "",
 };
 
 Wysiwyg.propTypes = {
