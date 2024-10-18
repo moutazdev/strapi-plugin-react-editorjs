@@ -1,16 +1,18 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import EditorJs from "react-editor-js";
-import requiredTools from "./requiredTools";
+import getRequiredTools from "./requiredTools";
 import customTools from "../../config/customTools";
 import MediaLibAdapter from "../medialib/adapter";
 import MediaLibComponent from "../medialib/component";
 import { changeFunc, getToggleFunc } from "../medialib/utils";
+import { useAuth } from "@strapi/strapi/admin";
 
 const Editor = ({ onChange, name, value }) => {
   const [editorInstance, setEditorInstance] = useState();
   const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
   const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
+  const token = useAuth("App", (state) => state.token);
 
   const mediaLibToggleFunc = useCallback(
     getToggleFunc({
@@ -68,7 +70,11 @@ const Editor = ({ onChange, name, value }) => {
               onChange({ target: { name, value: JSON.stringify(newData) } });
             }
           }}
-          tools={{ ...requiredTools, ...customTools, ...customImageTool }}
+          tools={{
+            ...getRequiredTools({ token }),
+            ...customTools,
+            ...customImageTool,
+          }}
           instanceRef={(instance) => setEditorInstance(instance)}
         />
       </div>

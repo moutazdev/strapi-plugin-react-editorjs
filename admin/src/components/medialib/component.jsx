@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useStrapiApp } from "@strapi/strapi/admin";
 
+export const prefixFileUrlWithBackendUrl = (fileURL) => {
+  return !!fileURL && fileURL.startsWith("/")
+    ? `${window.strapi.backendURL}${fileURL}`
+    : fileURL;
+};
+
 const MediaLibComponent = ({ isOpen, onChange, onToggle }) => {
   const components = useStrapiApp("ImageDialog", (state) => state.components);
 
@@ -17,7 +23,7 @@ const MediaLibComponent = ({ isOpen, onChange, onToggle }) => {
   const handleSelectAssets = (files) => {
     const formattedFiles = files.map((f) => ({
       alt: f.alternativeText || f.name,
-      url: f.url /* prefixFileUrlWithBackendUrl(f.url) AHLY */,
+      url: prefixFileUrlWithBackendUrl(f.url),
       width: f.width,
       height: f.height,
       size: f.size,

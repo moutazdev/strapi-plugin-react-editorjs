@@ -18,7 +18,6 @@ const App = () => {
     <div>
       <Switch>
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
-        {/* AHLY */}
         <Route component={Page.Error} />
       </Switch>
     </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 // Plugins for Editor.js
 import Image from "@editorjs/image";
 
-const requiredTools = {
+const requiredTools = (options) => ({
   image: {
     class: Image,
     config: {
@@ -13,8 +13,7 @@ const requiredTools = {
         data: JSON.stringify({}),
       },
       additionalRequestHeaders: {
-        // AHLY
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5MTgyMTMzLCJleHAiOjE3MzE3NzQxMzN9.lthiUwLfY7cuEhlfTH3Xh9tA1kHzE-fU53HSQOJmT-I`,
+        Authorization: `Bearer ${options.token}`,
       },
       endpoints: {
         byUrl: `/api/${PluginId}/image/byUrl`,
@@ -30,8 +29,7 @@ const requiredTools = {
             formData,
             {
               headers: {
-                // AHLY
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzI5MTgyMTMzLCJleHAiOjE3MzE3NzQxMzN9.lthiUwLfY7cuEhlfTH3Xh9tA1kHzE-fU53HSQOJmT-I`,
+                Authorization: `Bearer ${options.token}`,
               },
             },
           );
@@ -41,6 +39,6 @@ const requiredTools = {
       },
     },
   },
-};
+});
 
 export default requiredTools;
