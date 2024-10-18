@@ -1,4 +1,5 @@
-import { adminRegister } from "../../fieldRegister";
+import wysiwyg_field_register from "../../custom_fields/wysiwyg_field_register";
+import input_field_register from "../../custom_fields/input_field_register";
 import pluginPkg from "../../package.json";
 // import Wysiwyg from "./components/Wysiwyg";
 import pluginId from "./pluginId";
@@ -30,7 +31,8 @@ export default {
       trads: {},
     });
 
-    adminRegister(app);
+    wysiwyg_field_register.adminRegister(app);
+    input_field_register.adminRegister(app);
   },
   bootstrap() {},
 };

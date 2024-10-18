@@ -15,7 +15,7 @@ const Wysiwyg = ({
   className,
   error,
   description,
-  intlLabel,
+  label,
   required,
   onChange,
   style,
@@ -32,8 +32,7 @@ const Wysiwyg = ({
     >
       <Box>
         <Typography variant="pi" fontWeight="bold">
-          {/* {formatMessage(intlLabel)} */}
-          {intlLabel}
+          {label}
         </Typography>
         {required && (
           <Typography variant="pi" fontWeight="bold" textColor="danger600">

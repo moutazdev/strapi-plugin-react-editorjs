@@ -1,7 +1,7 @@
-const pluginId = require("./admin/src/pluginId");
-console.log("🚀 ~ pluginId:", pluginId);
-const name = "wysiwyg";
+const pluginId = require("../admin/src/pluginId");
+const name = "input";
 const type = "string";
+/* NOTE: THIS CUSTOM FIELD JUST FOR TESTING  */
 
 const serverRegister = () => {
   strapi.customFields.register({
@@ -22,18 +22,18 @@ const adminRegister = (app) => {
     pluginId,
     type,
     intlLabel: {
-      id: "color-picker.color.label",
-      defaultMessage: "Color",
+      id: "input",
+      defaultMessage: "Input",
     },
     intlDescription: {
-      id: "color-picker.color.description",
-      defaultMessage: "Select any color",
+      id: "description",
+      defaultMessage: "Testing custom field",
     },
     // icon: ColorPickerIcon, // don't forget to create/import your icon component
     components: {
       Input: async () =>
         import(
-          /* webpackChunkName: "input-component" */ "./admin/src/components/Wysiwyg"
+          /* webpackChunkName: "input-component" */ "../admin/src/components/Input"
         ),
     },
     options: {
