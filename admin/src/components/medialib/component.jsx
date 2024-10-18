@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useStrapiApp } from "@strapi/strapi/admin";
 
 const MediaLibComponent = ({ isOpen, onChange, onToggle }) => {
-  // AHLY
-  // const { components } = useLibrary();
+  const components = useStrapiApp("ImageDialog", (state) => state.components);
+
   const [data, setData] = useState(null);
   const MediaLibraryDialog = components["media-library"];
 
@@ -26,9 +27,7 @@ const MediaLibComponent = ({ isOpen, onChange, onToggle }) => {
     onChange(formattedFiles);
   };
 
-  if (!isOpen) {
-    return null;
-  }
+  if (!components || !isOpen) return null;
 
   return (
     <MediaLibraryDialog

@@ -58,37 +58,37 @@ const Wysiwyg = ({
   );
 };
 
-Wysiwyg.defaultProps = {
-  className: "",
-  style: {},
-  tabIndex: "0",
-  value: null,
-  description: "",
-  disabled: false,
-  error: undefined,
-  intlLabel: "",
-  required: false,
-  value: "",
-};
+// Wysiwyg.defaultProps = {
+//   className: "",
+//   style: {},
+//   tabIndex: "0",
+//   value: null,
+//   description: "",
+//   disabled: false,
+//   error: undefined,
+//   intlLabel: "",
+//   required: false,
+//   value: "",
+// };
 
-Wysiwyg.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-  tabIndex: PropTypes.string,
-  description: PropTypes.shape({
-    id: PropTypes.string,
-    defaultMessage: PropTypes.string,
-  }),
-  disabled: PropTypes.bool,
-  error: PropTypes.string,
-  intlLabel: PropTypes.shape({
-    id: PropTypes.string,
-    defaultMessage: PropTypes.string,
-  }),
-  required: PropTypes.bool,
-  value: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+// Wysiwyg.propTypes = {
+//   className: PropTypes.string,
+//   style: PropTypes.object,
+//   tabIndex: PropTypes.string,
+//   description: PropTypes.shape({
+//     id: PropTypes.string,
+//     defaultMessage: PropTypes.string,
+//   }),
+//   disabled: PropTypes.bool,
+//   error: PropTypes.string,
+//   intlLabel: PropTypes.shape({
+//     id: PropTypes.string,
+//     defaultMessage: PropTypes.string,
+//   }),
+//   required: PropTypes.bool,
+//   value: PropTypes.string,
+//   name: PropTypes.string.isRequired,
+//   onChange: PropTypes.func.isRequired,
+// };
 
 export default Wysiwyg;
