@@ -22,7 +22,6 @@ const Editor = ({ onChange, name, value }) => {
 
   const handleMediaLibChange = useCallback(
     (data) => {
-      console.log("🚀 ~ handleMediaLibChange ~ data", data, mediaLibBlockIndex);
       changeFunc({
         indexStateSetter: setMediaLibBlockIndex,
         data,
@@ -38,10 +37,7 @@ const Editor = ({ onChange, name, value }) => {
     mediaLib: {
       class: MediaLibAdapter,
       config: {
-        mediaLibToggleFunc: () => {
-          console.log("mediaLibToggleFunc");
-          mediaLibToggleFunc();
-        },
+        mediaLibToggleFunc,
       },
     },
   };
