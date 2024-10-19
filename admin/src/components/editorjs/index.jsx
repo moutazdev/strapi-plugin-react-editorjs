@@ -12,7 +12,9 @@ const Editor = ({ onChange, name, value }) => {
   const [editorInstance, setEditorInstance] = useState();
   const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
   const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
-  const token = useAuth("App", (state) => state.token);
+  const token =
+    JSON.parse(localStorage.getItem("jwtToken")) ||
+    JSON.parse(sessionStorage.getItem("jwtToken"));
 
   const mediaLibToggleFunc = useCallback(
     getToggleFunc({

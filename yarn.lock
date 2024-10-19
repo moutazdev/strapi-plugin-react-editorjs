@@ -2505,7 +2505,7 @@
     sharp "0.32.6"
     yup "0.32.9"
 
-"@strapi/utils@5.1.0":
+"@strapi/utils@^5.1.0", "@strapi/utils@5.1.0":
   version "5.1.0"
   resolved "https://registry.npmjs.org/@strapi/utils/-/utils-5.1.0.tgz"
   integrity sha512-dPb4JmEsNVYA4vtNq4QtDL7NAQa0DrsdZQOWGrLM62iLbaclBPzpSgsxxzv4RCTD3z07sfrLVeffjjt7VbyXog==
