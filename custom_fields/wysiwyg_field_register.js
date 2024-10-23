@@ -9,7 +9,7 @@ const serverRegister = () => {
     type,
     inputSize: {
       // optional
-      default: 4,
+      default: 12,
       isResizable: true,
     },
   });

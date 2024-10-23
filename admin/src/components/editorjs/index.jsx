@@ -1,13 +1,22 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import EditorJs from "react-editor-js";
 import getRequiredTools from "./requiredTools";
 import customTools from "../../config/customTools";
 import MediaLibAdapter from "../medialib/adapter";
 import MediaLibComponent from "../medialib/component";
 import { changeFunc, getToggleFunc } from "../medialib/utils";
 import { useAuth } from "@strapi/strapi/admin";
+// import EditorJs from "react-editor-js";
+import { createReactEditorJS } from "react-editor-js";
+const EditorJs = createReactEditorJS();
 
+const getValue = (value) => {
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    return {};
+  }
+};
 const Editor = ({ onChange, name, value }) => {
   const [editorInstance, setEditorInstance] = useState();
   const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
@@ -15,6 +24,12 @@ const Editor = ({ onChange, name, value }) => {
   const token =
     JSON.parse(localStorage.getItem("jwtToken")) ||
     JSON.parse(sessionStorage.getItem("jwtToken"));
+  const editorCore = React.useRef(null);
+  const r = React.useRef(null);
+
+  const handleInitialize = React.useCallback((instance) => {
+    editorCore.current = instance;
+  }, []);
 
   const mediaLibToggleFunc = useCallback(
     getToggleFunc({
@@ -24,14 +39,16 @@ const Editor = ({ onChange, name, value }) => {
     [],
   );
 
+  // when image selected
   const handleMediaLibChange = useCallback(
     (data) => {
-      changeFunc({
-        indexStateSetter: setMediaLibBlockIndex,
-        data,
-        index: mediaLibBlockIndex,
-        editor: editorInstance,
-      });
+      // changeFunc({
+      //   indexStateSetter: setMediaLibBlockIndex,
+      //   data,
+      //   index: mediaLibBlockIndex,
+      //   editor: editorInstance,
+      // });
+      r.current(data);
       mediaLibToggleFunc();
     },
     [mediaLibBlockIndex, editorInstance],
@@ -42,6 +59,10 @@ const Editor = ({ onChange, name, value }) => {
       class: MediaLibAdapter,
       config: {
         mediaLibToggleFunc,
+        onBlockClicked: (callItWhenFileSelected) => {
+          mediaLibToggleFunc();
+          r.current = callItWhenFileSelected;
+        },
       },
     },
   };
@@ -56,28 +77,18 @@ const Editor = ({ onChange, name, value }) => {
         }}
       >
         <EditorJs
-          // data={JSON.parse(value)}
-          // enableReInitialize={true}
-          onReady={(api) => {
-            if (value && JSON.parse(value).blocks.length) {
-              api.blocks.render(JSON.parse(value));
-            }
-            // document.querySelector('[data-tool="image"]').remove();
-          }}
-          onChange={(api, newData) => {
-            if (!newData.blocks.length) {
-              newData = null;
-              onChange({ target: { name, value: newData } });
-            } else {
-              onChange({ target: { name, value: JSON.stringify(newData) } });
-            }
+          defaultValue={getValue(value)}
+          onChange={async (...args) => {
+            const savedData = await editorCore.current.save();
+            // console.log("🚀 ~ onChange={ ~ savedData:", savedData);
+            onChange({ target: { name, value: JSON.stringify(savedData) } });
           }}
           tools={{
             ...getRequiredTools({ token }),
             ...customTools,
             ...customImageTool,
           }}
-          instanceRef={(instance) => setEditorInstance(instance)}
+          onInitialize={handleInitialize}
         />
       </div>
       <MediaLibComponent
