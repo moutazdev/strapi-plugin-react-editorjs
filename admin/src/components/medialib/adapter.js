@@ -33,6 +33,7 @@ export default class MediaLibAdapter {
       const currentIndex = this.api.blocks.getCurrentBlockIndex();
 
       this.config.onBlockClicked((files) => {
+        if (!files || !files.length) return;
         this.file = files[0];
         imageEl.src = files[0].url;
 
