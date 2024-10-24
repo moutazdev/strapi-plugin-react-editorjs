@@ -25,7 +25,7 @@ const Editor = ({ onChange, name, value }) => {
     JSON.parse(localStorage.getItem("jwtToken")) ||
     JSON.parse(sessionStorage.getItem("jwtToken"));
   const editorCore = React.useRef(null);
-  const r = React.useRef(null);
+  const imageSelectCbRef = React.useRef(null);
 
   const handleInitialize = React.useCallback((instance) => {
     editorCore.current = instance;
@@ -48,7 +48,7 @@ const Editor = ({ onChange, name, value }) => {
       //   index: mediaLibBlockIndex,
       //   editor: editorInstance,
       // });
-      r.current(data);
+      imageSelectCbRef.current(data);
       mediaLibToggleFunc();
     },
     [mediaLibBlockIndex, editorInstance],
@@ -61,7 +61,7 @@ const Editor = ({ onChange, name, value }) => {
         mediaLibToggleFunc,
         onBlockClicked: (callItWhenFileSelected) => {
           mediaLibToggleFunc();
-          r.current = callItWhenFileSelected;
+          imageSelectCbRef.current = callItWhenFileSelected;
         },
       },
     },
