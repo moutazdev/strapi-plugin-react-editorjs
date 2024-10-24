@@ -28,10 +28,14 @@ export default {
       settings: null,
       trads: {},
     });
-    // OLD WAY (DEPRECATED in newer versions of Strapi v4)
-    // app.addFields({ type: 'wysiwyg', Component: Wysiwyg });
     // NEW WAY
-    wysiwyg_field_register.adminRegister(app);
+    try {
+      wysiwyg_field_register.adminRegister(app);
+    } catch (err) {
+      // fallback for older versions of Strapi 4
+      // OLD WAY (DEPRECATED in newer versions of Strapi v4)
+      app.addFields({ type: "wysiwyg", Component: Wysiwyg });
+    }
   },
   bootstrap() {},
 };
