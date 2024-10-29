@@ -1,65 +1,76 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import EditorJs from 'react-editor-js';
-import requiredTools from './requiredTools';
-import customTools from '../../config/customTools';
+import React, { useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import requiredTools from "./requiredTools";
+import customTools from "../../config/customTools";
 
-import MediaLibAdapter from '../medialib/adapter'
-import MediaLibComponent from '../medialib/component';
-import {changeFunc, getToggleFunc} from '../medialib/utils';
+import MediaLibAdapter from "../medialib/adapter";
+import MediaLibComponent from "../medialib/component";
+import { changeFunc, getToggleFunc } from "../medialib/utils";
 
+import { createReactEditorJS } from "react-editor-js";
+const EditorJs = createReactEditorJS();
 const Editor = ({ onChange, name, value }) => {
-
   const [editorInstance, setEditorInstance] = useState();
   const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
   const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
+  const editorCore = React.useRef(null);
+  const imageSelectCbRef = React.useRef(null);
 
-  const mediaLibToggleFunc = useCallback(getToggleFunc({
-    openStateSetter: setIsMediaLibOpen,
-    indexStateSetter: setMediaLibBlockIndex
-  }), []);
+  const handleInitialize = React.useCallback((instance) => {
+    editorCore.current = instance;
+  }, []);
 
-  const handleMediaLibChange = useCallback((data) => {
-    changeFunc({
-        indexStateSetter: setMediaLibBlockIndex,
-        data,
-        index: mediaLibBlockIndex,
-        editor: editorInstance
-    });
-    mediaLibToggleFunc();
-  }, [mediaLibBlockIndex, editorInstance]);
+  const mediaLibToggleFunc = useCallback(
+    getToggleFunc({
+      openStateSetter: setIsMediaLibOpen,
+      indexStateSetter: setMediaLibBlockIndex,
+    }),
+    []
+  );
+
+  // when image selected
+  const handleMediaLibChange = useCallback(
+    (data) => {
+      imageSelectCbRef.current(data);
+      mediaLibToggleFunc();
+    },
+    [mediaLibBlockIndex, editorInstance]
+  );
 
   const customImageTool = {
     mediaLib: {
       class: MediaLibAdapter,
       config: {
-        mediaLibToggleFunc
-      }
-    }
-  }
-
+        mediaLibToggleFunc,
+        onBlockClicked: (callItWhenFileSelected) => {
+          mediaLibToggleFunc();
+          imageSelectCbRef.current = callItWhenFileSelected;
+        },
+      },
+    },
+  };
   return (
     <>
-      <div style={{ border: `1px solid rgb(227, 233, 243)`, borderRadius: `2px`, marginTop: `4px` }}>
+      <div
+        style={{
+          border: `1px solid rgb(227, 233, 243)`,
+          borderRadius: `2px`,
+          marginTop: `4px`,
+        }}
+      >
         <EditorJs
-          // data={JSON.parse(value)}
-          // enableReInitialize={true}
-          onReady={(api) => {
-            if(value && JSON.parse(value).blocks.length) {
-              api.blocks.render(JSON.parse(value))
-            }
-            document.querySelector('[data-tool="image"]').remove()
+          defaultValue={getValue(value)}
+          onChange={async (...args) => {
+            const savedData = await editorCore.current.save();
+            // console.log("🚀 ~ onChange={ ~ savedData:", savedData);
+            onChange({ target: { name, value: JSON.stringify(savedData) } });
           }}
-          onChange={(api, newData) => {
-            if (!newData.blocks.length) {
-              newData = null;
-              onChange({ target: { name, value: newData } });
-            } else {
-              onChange({ target: { name, value: JSON.stringify(newData) } });
-            }
+          tools={{
+            ...requiredTools,
+            ...customTools,
+            ...customImageTool,
           }}
-          tools={{...requiredTools, ...customTools, ...customImageTool}}
-          instanceRef={instance => setEditorInstance(instance)}
+          onInitialize={handleInitialize}
         />
       </div>
       <MediaLibComponent
@@ -69,6 +80,14 @@ const Editor = ({ onChange, name, value }) => {
       />
     </>
   );
+};
+
+const getValue = (value) => {
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    return {};
+  }
 };
 
 Editor.propTypes = {
