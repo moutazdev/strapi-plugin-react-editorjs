@@ -29,13 +29,14 @@ export default {
       trads: {},
     });
     // NEW WAY
-    try {
-      wysiwyg_field_register.adminRegister(app);
-    } catch (err) {
+    app.addFields({ type: "wysiwyg", Component: Wysiwyg });
+    //try {
+    //  wysiwyg_field_register.adminRegister(app);
+    //} catch (err) {
       // fallback for older versions of Strapi 4
       // OLD WAY (DEPRECATED in newer versions of Strapi v4)
-      app.addFields({ type: "wysiwyg", Component: Wysiwyg });
-    }
+    //  app.addFields({ type: "wysiwyg", Component: Wysiwyg });
+    //}
   },
   bootstrap() {},
 };
